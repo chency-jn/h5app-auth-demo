@@ -2,6 +2,7 @@ package com.aliyun.dingtalk.controller;
 
 import com.aliyun.dingtalk.service.DingTalkUserService;
 import com.aliyun.dingtalk.model.ServiceResult;
+import com.dingtalk.api.response.OapiV2UserGetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +34,10 @@ public class DingTalkUserController {
      */
     @GetMapping("/login")
     public ServiceResult login(@RequestParam(value = "authCode") String authCode) {
-
-        return ServiceResult.getSuccessResult(dingTalkUserService.getUserInfo(authCode));
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhcHAiOiJnb3YiLCJjbGllbnQiOiJ3ZWIiLCJleHAiOjE2NjUwMzc2NTQsInVzZXJJZCI6IjczYWU2MjgwZTQ2YTY2NTNhNTYwNWQ1MWQ1NDYyNzI1IiwiaWF0IjoxNjY0NDMyODU0fQ.Kls26A6w7lyWg1_c95rvMo15qtnADdslaEQQgWPOaByJBVQkUPSDP7wQOSDSMoz1Felzps_hjaTDYZ_lKIplzQ";
+        OapiV2UserGetResponse.UserGetResponse userInfo = dingTalkUserService.getUserInfo(authCode);
+        userInfo.setExtension(token);
+        return ServiceResult.getSuccessResult(userInfo);
 
     }
 }
